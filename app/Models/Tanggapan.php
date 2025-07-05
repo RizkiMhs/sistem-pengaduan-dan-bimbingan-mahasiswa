@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tanggapan extends Model
 {
@@ -41,5 +42,10 @@ class Tanggapan extends Model
     public function dosenpa()
     {
         return $this->belongsTo(Dosenpa::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

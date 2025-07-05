@@ -31,19 +31,23 @@ class PendaftaranBimbinganController extends Controller
         }
 
         if (Auth::user()->role == 'mahasiswa') {
-            $mahasiswaId = Auth::user()->mahasiswa->id;
+            $mahasiswa = Auth::user()->mahasiswa;
             
             // Mengambil riwayat pendaftaran mahasiswa
-            $pendaftarans = PendaftaranBimbingan::where('mahasiswa_id', $mahasiswaId)
+            $pendaftarans = PendaftaranBimbingan::where('mahasiswa_id', $mahasiswa->id)
                 ->with('jadwalBimbingan.dosenpa')
                 ->latest()->get();
             
-            // Ambil juga data jadwal yang tersedia
+            // PERBAIKAN: Ambil ID Dosen PA dari mahasiswa yang login
+            $dosenpaId = $mahasiswa->dosenpa_id;
+
+            // Ambil juga data jadwal yang tersedia HANYA dari Dosen PA tersebut
             $jadwalTersedia = JadwalBimbingan::where('status', 'Tersedia')
+                                ->where('dosenpa_id', $dosenpaId) // <-- Tambahkan filter ini
                                 ->with(['dosenpa', 'kategoriBimbingan', 'pendaftaranBimbingan'])
-                                ->whereDoesntHave('pendaftaranBimbingan', function ($query) use ($mahasiswaId) {
+                                ->whereDoesntHave('pendaftaranBimbingan', function ($query) use ($mahasiswa) {
                                     // Sembunyikan jadwal jika mahasiswa sudah mendaftar di sana
-                                    $query->where('mahasiswa_id', $mahasiswaId);
+                                    $query->where('mahasiswa_id', $mahasiswa->id);
                                 })
                                 ->latest()->get();
 

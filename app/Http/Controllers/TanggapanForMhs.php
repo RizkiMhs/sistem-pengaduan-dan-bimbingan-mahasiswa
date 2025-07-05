@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tanggapan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TanggapanForMhs extends Controller
 {
@@ -12,11 +13,22 @@ class TanggapanForMhs extends Controller
      */
     public function index()
     {
-        //
+        // 1. Dapatkan ID mahasiswa yang sedang login.
+        $mahasiswaId = Auth::user()->mahasiswa->id;
+
+        // 2. Dapatkan semua ID pengaduan yang dimiliki oleh mahasiswa tersebut.
+        $pengaduanIds = Auth::user()->mahasiswa->pengaduan->pluck('id');
+
+        // 3. Ambil hanya tanggapan yang pengaduan_id-nya ada di dalam daftar ID di atas.
+        $tanggapan = Tanggapan::whereIn('pengaduan_id', $pengaduanIds)
+                                ->with('pengaduan', 'user') // Eager load relasi untuk efisiensi
+                                ->latest()
+                                ->get();
+
         return view('dashboard.tanggapan.mhs.index', [
-            'title' => 'Tanggapan',
+            'title' => 'Tanggapan Diterima',
             'active' => 'tanggapan',
-            'tanggapan' => Tanggapan::all()
+            'tanggapan' => $tanggapan
         ]);
     }
 

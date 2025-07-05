@@ -99,6 +99,7 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\KategoriBimbinganController;
 
 
+
 // DosenPA Controllers
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PengaduanForDosenController;
@@ -110,6 +111,7 @@ use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TanggapanForMhs;
 use App\Models\Faculty;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -222,6 +224,8 @@ Route::prefix('dashboard')
                 Route::resource('pengaduan', PengaduanController::class);
                 Route::resource('rating', RatingController::class);
 
+                Route::get('tanggapan-mahasiswa', [TanggapanForMhs::class, 'index'])->name('tanggapan.index');
+
                 // PERBAIKAN NAMA RUTE: Nama rute ini sekarang unik (dashboard.mahasiswa.pendaftaran-bimbingan.index)
                 Route::get('pendaftaran-bimbingan', [PendaftaranBimbinganController::class, 'index'])->name('pendaftaran-bimbingan.index');
                 Route::get('pendaftaran-bimbingan/{pendaftaranBimbingan}', [PendaftaranBimbinganController::class, 'show'])->name('pendaftaran-bimbingan.show');
@@ -237,4 +241,12 @@ Route::prefix('dashboard')
                 Route::post('/', [CatatanBimbinganController::class, 'store'])->name('store');
                 Route::delete('/{catatanBimbingan}', [CatatanBimbinganController::class, 'destroy'])->name('destroy');
             });
+
+        // Rute untuk Profil
+        // Rute untuk Profil
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        // Rute spesifik untuk update foto (menggunakan POST untuk file upload)
+        Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+        // Rute spesifik untuk update password
+        Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
     });

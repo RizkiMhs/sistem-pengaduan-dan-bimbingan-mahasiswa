@@ -11,7 +11,7 @@
                 <th scope="col">NIM</th>
                 <th scope="col">Nama Mahasiswa</th>
                 <th scope="col">Isi Pengaduan</th>
-                <th scope="col">isi Pengaduan</th>
+                <th scope="col">isi Tanggapan</th>
                 <th scope="col">Tanggal Masuk</th>
                 <th scope="col">Status</th>
                 <th scope="col">Aksi</th>

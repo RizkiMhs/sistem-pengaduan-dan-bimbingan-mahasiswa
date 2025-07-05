@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Dosenpa;
+use App\Models\Prodi;
 use App\Models\Tingkat;
 
 
@@ -27,7 +28,7 @@ class MahasiswaController extends Controller
             // 'mahasiswa' =>  Mahasiswa::where('dosenpa_id', auth()->user()->dosenpa->id)->get(),
             'mahasiswa' =>  Mahasiswa::all(),
             'dosenpa' => Dosenpa::all(),
-            'tingkat' => Tingkat::all()
+            'prodi' => Prodi::all()
 
         ]);
     }
