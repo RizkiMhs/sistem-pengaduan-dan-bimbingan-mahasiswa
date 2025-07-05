@@ -53,16 +53,17 @@
       </li>
     </ul>
 
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-      <span>Laporan</span>
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Laporan</span>
     </h6>
-    <ul class="nav flex-column mb-2">
-      <li class="nav-item">
-        <a class="nav-link {{ Request::is('dashboard/tanggapan-admin*') ? 'active' : '' }}" href="/dashboard/tanggapan-admin">
-          <span data-feather="file-text" class="align-text-bottom"></span>
-          Pengaduan
-        </a>
-      </li>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            {{-- Tautan ini mengarah ke rute 'dashboard.admin.laporan.index' --}}
+            <a class="nav-link {{ Request::is('dashboard/laporan*') ? 'active' : '' }}" href="{{ route('dashboard.admin.laporan.index') }}">
+                <span data-feather="printer"></span>
+                Laporan Bimbingan & Pengaduan
+            </a>
+        </li>
     </ul>
     @endcan
 

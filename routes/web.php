@@ -97,6 +97,7 @@ use App\Http\Controllers\TingkatController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\KategoriBimbinganController;
+use App\Http\Controllers\LaporanController;
 
 
 
@@ -177,6 +178,8 @@ Route::prefix('dashboard')
                 Route::resource('kelas', TingkatController::class);
                 Route::resource('rating-dosen', RatingForAdminController::class);
                 Route::get('rating-dosen-semua', [RatingForAdminController::class, 'ratingdosenoll'])->name('rating-dosen.all');
+
+                Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 
 
                 Route::prefix('export')->name('export.')->group(function () {
