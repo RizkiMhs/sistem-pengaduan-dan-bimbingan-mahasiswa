@@ -108,7 +108,7 @@
                         <td>{{ $item->mahasiswa->nim }}</td>
                         <td>{{ $item->kategori }}</td>
                         <td><span class="badge bg-info">{{ $item->status }}</span></td>
-                        <td>{{ $item->tanggapan->user->name ?? 'Belum Ditanggapi' }}</td>
+                        <td>{{ $item->tanggapan->dosenpa->nama ?? 'Belum Ditanggapi' }}</td>
                     </tr>
                     @empty
                     <tr><td colspan="7" class="text-center">Tidak ada data pengaduan pada rentang tanggal ini.</td></tr>

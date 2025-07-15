@@ -24,7 +24,12 @@
 @endif
 
 
+@php
+    $role = Auth::user()->role;
+@endphp
+
 <div class="row">
+    @if ($role === 'mahasiswa' || $role === 'dosenpa')
     <div class="col-lg-4">
         {{-- Form Ganti Foto --}}
         <div class="card mb-4">
@@ -50,6 +55,8 @@
             </div>
         </div>
     </div>
+    @endif
+
     <div class="col-lg-8">
         {{-- Form Ganti Password --}}
         <div class="card">

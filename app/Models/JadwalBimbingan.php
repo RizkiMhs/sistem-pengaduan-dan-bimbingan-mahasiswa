@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\DosenPa;
+use App\Models\Dosenpa;
 use App\Models\KategoriBimbingan;
 use App\Models\PendaftaranBimbingan;
 
@@ -16,7 +16,7 @@ class JadwalBimbingan extends Model
     protected $guarded = ['id'];
     public function dosenpa()
     {
-        return $this->belongsTo(DosenPa::class, 'dosenpa_id');
+        return $this->belongsTo(Dosenpa::class, 'dosenpa_id');
     }
     public function kategoriBimbingan()
     {

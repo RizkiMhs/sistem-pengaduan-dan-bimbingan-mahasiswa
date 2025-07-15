@@ -289,7 +289,6 @@
 @endforeach
 
 <!-- Modal show -->
-
 @foreach ($dosenpa as $pa)
 <div class="modal fade" id="showdosen{{ $pa->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -301,44 +300,72 @@
         <div class="modal-body">
             <div class="row g-0">
                 <div class="col-md-4">
-                  <img src="{{ asset('storage/' . $pa->foto) }}" class="img-thumbnail rounded-start" alt="{{ $pa->foto }}">                 
-                  
+                  <img src="{{ asset('storage/' . $pa->foto) }}" class="img-thumbnail rounded-start" alt="{{ $pa->foto }}">                  
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                    
-                    <table class="table">
-                        <tr>
-                            <td>Nama</td>
-                            <td>:</td>
-                            <td>{{ $pa->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>NIDN</td>
-                            <td>:</td>
-                            <td>{{ $pa->nidn }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>:</td>
-                            <td>{{ $pa->email }}</td>
-                        </tr>
-                        <tr>
-                            <td>Jenis Kelamin</td>
-                            <td>:</td>
-                            <td>{{ $pa->jenis_kelamin }}</td>
-                        </tr>
-                        <tr>
-                            <td>Alamat</td>
-                            <td>:</td>
-                            <td>{{ $pa->alamat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Nomor HP</td>
-                            <td>:</td>
-                            <td>{{ $pa->no_hp }}</td>
-                        </tr>                     
-                    </table>
+                      
+                      <table class="table">
+                          <tr>
+                              <td>Nama</td>
+                              <td>:</td>
+                              <td>{{ $pa->nama }}</td>
+                          </tr>
+                          <tr>
+                              <td>NIDN</td>
+                              <td>:</td>
+                              <td>{{ $pa->nidn }}</td>
+                          </tr>
+                          <tr>
+                              <td>Email</td>
+                              <td>:</td>
+                              <td>{{ $pa->email }}</td>
+                          </tr>
+                          <tr>
+                              <td>Jenis Kelamin</td>
+                              <td>:</td>
+                              <td>{{ $pa->jenis_kelamin }}</td>
+                          </tr>
+                          <tr>
+                              <td>Alamat</td>
+                              <td>:</td>
+                              <td>{{ $pa->alamat }}</td>
+                          </tr>
+                          <tr>
+                              <td>Nomor HP</td>
+                              <td>:</td>
+                              <td>{{ $pa->no_hp }}</td>
+                          </tr>                                   
+                      </table>
+
+                      {{-- AWAL BAGIAN TAMBAHAN --}}
+                      <h6 class="mt-4">Daftar Mahasiswa Bimbingan:</h6>
+                      
+                      @if ($pa->mahasiswa && $pa->mahasiswa->count() > 0)
+                        <table class="table table-sm table-striped mt-2">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Nama Mahasiswa</th>
+                              {{-- Ganti 'nim' dengan nama kolom yang sesuai jika berbeda --}}
+                              <th scope="col">NIM</th> 
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($pa->mahasiswa as $mahasiswa)
+                              <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $mahasiswa->nama }}</td>
+                                <td>{{ $mahasiswa->nim }}</td>
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      @else
+                        <p class="text-muted mt-2">Belum ada mahasiswa bimbingan.</p>
+                      @endif
+                      {{-- AKHIR BAGIAN TAMBAHAN --}}
+
                   </div>
                 </div>
               </div>

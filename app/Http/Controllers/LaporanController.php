@@ -24,7 +24,7 @@ class LaporanController extends Controller
             ->latest()->get();
 
         // Ambil data Laporan Pengaduan sesuai rentang tanggal
-        $laporanPengaduan = Pengaduan::with(['mahasiswa', 'tanggapan.user'])
+        $laporanPengaduan = Pengaduan::with(['mahasiswa', 'tanggapan.dosenpa'])
             ->whereBetween(DB::raw('DATE(created_at)'), [$startDate, $endDate])
             ->latest()->get();
 

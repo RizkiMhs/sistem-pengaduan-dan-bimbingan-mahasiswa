@@ -40,6 +40,8 @@
                     <td>
                         {{-- <a href="/dashboard/kelas/{{ $item->id }}" class="badge bg-info"><span data-feather="eye"></span></a> --}}
                         {{-- <a href="/dashboard/kelas/{{ $item->id }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a> --}}
+                        {{-- TOMBOL SHOW DITAMBAHKAN DI SINI --}}
+                        <button class="badge bg-info border-0" data-bs-toggle="modal" data-bs-target="#showfakultas{{ $item->id }}"><span data-feather="eye"></span></button>
                         <button class="badge bg-warning border-0" data-bs-toggle="modal" data-bs-target="#editfakultas{{ $item->id }}"><span data-feather="edit"></span></button>
                         <form action="/dashboard/fakultas/{{ $item->id }}" method="post" class="d-inline">
                             @method('delete')
@@ -104,6 +106,53 @@
                         </div>
                         <button type="submit" class="btn btn-warning">Edit</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+
+    {{-- MODAL SHOW (BAGIAN BARU) --}}
+    @foreach($fakultas as $item)
+    <div class="modal fade" id="showfakultas{{ $item->id }}" tabindex="-1" aria-labelledby="showfakultasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showfakultasLabel">Detail Fakultas: {{ $item->nama_fakultas }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Daftar Program Studi (Prodi)</h6>
+                    
+                    {{-- Memeriksa apakah ada data prodi terkait --}}
+                    @if ($item->prodi && $item->prodi->count() > 0)
+                        <table class="table table-sm table-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nama Prodi</th>
+                                    <th scope="col">Jenjang</th> {{-- Asumsi kolom jenjang ada di tabel prodi --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($item->prodi as $prodi)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        {{-- Sesuaikan 'nama_prodi' dan 'jenjang' jika nama kolom Anda berbeda --}}
+                                        <td>{{ $prodi->nama_prodi }}</td> 
+                                        <td>{{ $prodi->jenjang }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="text-muted">Fakultas ini belum memiliki Program Studi yang terdaftar.</p>
+                    @endif
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
