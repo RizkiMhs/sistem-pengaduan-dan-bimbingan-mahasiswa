@@ -35,9 +35,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="foto" class="form-label">Foto</label>
-                                <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto">
-                                @error('foto')
+                                <label for="dokumen" class="form-label">Dokumen (Gambar/PDF/Dokumen)</label>
+                                <input type="file" class="form-control @error('dokumen') is-invalid @enderror" id="dokumen" name="dokumen" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                                @error('dokumen')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -62,7 +62,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Isi Pengaduan</th>
-                                        {{-- <th>Foto</th> --}}
+                                        <th>Dokumen</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -74,9 +74,20 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->isi_pengaduan }}</td>
-                                        {{-- <td>
-                                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->isi_pengaduan }}" class="img-thumbnail" width="50">
-                                        </td> --}}
+                                        <td>
+                                            @if($item->dokumen)
+                                                @php
+                                                    $ext = pathinfo($item->dokumen, PATHINFO_EXTENSION);
+                                                @endphp
+                                                @if(in_array(strtolower($ext), ['jpg','jpeg','png']))
+                                                    <img src="{{ asset('storage/' . $item->dokumen) }}" alt="Dokumen" class="img-thumbnail" width="80">
+                                                @else
+                                                    <a href="{{ asset('storage/' . $item->dokumen) }}" target="_blank">Download / Lihat Dokumen</a>
+                                                @endif
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($item->status == 'proses')
                                             <span class="badge bg-warning text-dark">Pending</span>
@@ -125,7 +136,18 @@
                 <div class="modal-body
                 ">
                     <p>{{ $item->isi_pengaduan }}</p>
-                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->isi_pengaduan }}" class="img-thumbnail" width="200">
+                     @if($item->dokumen)
+                                                @php
+                                                    $ext = pathinfo($item->dokumen, PATHINFO_EXTENSION);
+                                                @endphp
+                                                @if(in_array(strtolower($ext), ['jpg','jpeg','png']))
+                                                    <img src="{{ asset('storage/' . $item->dokumen) }}" alt="Dokumen" class="img-thumbnail" width="80">
+                                                @else
+                                                    <a href="{{ asset('storage/' . $item->dokumen) }}" target="_blank">Download / Lihat Dokumen</a>
+                                                @endif
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

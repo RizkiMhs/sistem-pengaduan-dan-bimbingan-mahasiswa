@@ -49,4 +49,9 @@ class Dosenpa extends Model
         return $this->hasMany(JadwalBimbingan::class, 'dosenpa_id');
     }
 
+    public function prodi()
+    {
+        return $this->belongsTo(\App\Models\Prodi::class);
+    }
+
 }

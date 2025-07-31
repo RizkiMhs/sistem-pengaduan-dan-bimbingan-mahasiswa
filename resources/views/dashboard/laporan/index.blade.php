@@ -87,14 +87,14 @@
             <button class="btn btn-success" onclick="window.print()"><span data-feather="printer"></span> Cetak</button>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-print">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Tanggal Pengaduan</th>
                         <th>Nama Mahasiswa</th>
                         <th>NIM</th>
-                        <th>Kategori</th>
+                        {{-- <th>Kategori</th> --}}
                         <th>Status</th>
                         <th>Ditanggapi Oleh</th>
                     </tr>
@@ -106,7 +106,7 @@
                         <td>{{ $item->created_at->format('d M Y') }}</td>
                         <td>{{ $item->mahasiswa->nama }}</td>
                         <td>{{ $item->mahasiswa->nim }}</td>
-                        <td>{{ $item->kategori }}</td>
+                        {{-- <td>{{ $item->kategori }}</td> --}}
                         <td><span class="badge bg-info">{{ $item->status }}</span></td>
                         <td>{{ $item->tanggapan->dosenpa->nama ?? 'Belum Ditanggapi' }}</td>
                     </tr>
@@ -120,3 +120,28 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<style>
+@media print {
+    body * {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    .table-print, .table-print * {
+        display: table !important;
+        visibility: visible !important;
+    }
+    .table-print {
+        position: static !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+    }
+}
+</style>
+@endpush

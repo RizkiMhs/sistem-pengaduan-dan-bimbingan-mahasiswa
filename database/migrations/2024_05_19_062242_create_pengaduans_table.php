@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('mahasiswa_id')->foreign('id')->references('id')->on('mahasiswas');
             $table->string('isi_pengaduan');
             $table->string('foto')->nullable();
+            $table->string('dokumen')->nullable();
             $table->string('status')->default('proses');
             $table->timestamps();
         });

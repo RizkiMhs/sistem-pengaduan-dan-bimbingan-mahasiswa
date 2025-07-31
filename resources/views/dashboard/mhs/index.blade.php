@@ -37,50 +37,39 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nama</th>
-          <th scope="col">Nim</th>
-          <th scope="col">Prodi</th>
-          <th scope="col">Dosen PA</th>
-          <th scope="col">Foto</th>
-          <th scope="col">Action</th>
+          <th>#</th>
+          <th>Nama</th>
+          <th>NIM</th>
+          <th>Program Studi</th>
+          <th>Fakultas</th>
+          <th>Dosen PA</th>
+          <th>Foto</th>
+          <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
-        @foreach ($mahasiswa as $mhs)
-        @if ($mhs->dosenpa_id == Auth::user()->dosenpa->id)
+        @foreach($mahasiswa as $mhs)
           <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $mhs->nama }}</td>
             <td>{{ $mhs->nim }}</td>
-            {{-- <td>{{ $mhs->tingkat->nama_kelas }}</td> --}}
-
+            <td>{{ $mhs->prodi->nama_prodi ?? '-' }}</td>
+            <td>{{ $mhs->prodi->fakultas->nama_fakultas ?? '-' }}</td>
+            <td>{{ $mhs->dosenpa->nama ?? '-' }}</td>
             <td>
-              @foreach ($prodi as $item)
-                @if ($item->id == $mhs->prodi_id)
-                  {{ $item->nama_prodi }} ({{ $item->jenjang }})
-                @endif
-              @endforeach
+              @if($mhs->foto)
+                <img src="{{ asset('storage/'.$mhs->foto) }}" alt="foto" width="50">
+              @else
+                <span>foto</span>
+              @endif
             </td>
-            {{-- <td>{{ $mhs->email }}</td> --}}
-            <td>{{ $mhs->dosenpa->nama }}</td>
-            <td><img src="{{ asset('storage/' . $mhs->foto) }}" alt="foto" style="width: 50px" class="img-thumbnail"></td>
             <td>
-  
-              <button class="badge bg-success border-0" data-bs-toggle="modal" data-bs-target="#showmhs{{ $mhs->id }}"><span data-feather="eye"></span></button>
-
-              {{-- @can('dosen_pa')
-              <button class="badge bg-warning border-0" data-bs-toggle="modal" data-bs-target="#editmhs{{ $mhs->id }}"><span data-feather="edit"></span></button>
-
-              <form action="/dashboard/mahasiswa/{{ $mhs->id }}" method="post" class="d-inline">
-                @method('delete')
-                @csrf
-                <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
-              </form>
-              @endcan --}}
+              <!-- aksi -->
+              <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#showmhs{{ $mhs->id }}">
+                <span data-feather="eye"></span>
+              </button>
             </td>
           </tr>
-        @endif
         @endforeach
       </tbody>
     </table>
@@ -130,15 +119,15 @@
                         <td>{{ $mhs->no_hp }}</td>
                       </tr>
                       <tr>
-                        <td>Kelas</td>
+                        <td>Fakultas</td>
                         <td>:</td>
-                        <td>
-              @foreach ($prodi as $item)
-                @if ($item->id == $mhs->prodi_id)
-                  {{ $item->nama_prodi }} ({{ $item->jenjang }})
-                @endif
-              @endforeach
-            </td>
+                        <td>{{ $mhs->prodi->fakultas->nama_fakultas ?? '-' }}</td>
+                      </tr>
+                      <tr>
+                        <td>Program Studi</td>
+                        <td>:</td>
+                        <td>{{ $mhs->prodi->nama_prodi ?? '-' }}</td>
+            
                       </tr>
                       
                       

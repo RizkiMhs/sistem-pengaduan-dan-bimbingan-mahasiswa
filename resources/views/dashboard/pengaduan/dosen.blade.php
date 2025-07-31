@@ -83,8 +83,19 @@
                             <textarea class="form-control" id="isi_pengaduan" name="isi_pengaduan" rows="3" readonly>{{ $item->isi_pengaduan }}</textarea>
                         </div>
                         <div class="mb-2">
-                            <label for="foto" class="form-label">Foto</label>
-                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->isi_pengaduan }}" class="img-thumbnail" width="500px">
+                            <label for="dokumen" class="form-label">Dokumen</label>
+                            @if($item->dokumen)
+                                @php
+                                    $ext = pathinfo($item->dokumen, PATHINFO_EXTENSION);
+                                @endphp
+                                @if(in_array(strtolower($ext), ['jpg','jpeg','png']))
+                                    <img src="{{ asset('storage/' . $item->dokumen) }}" alt="Dokumen" class="img-thumbnail" width="200">
+                                @else
+                                    <a href="{{ asset('storage/' . $item->dokumen) }}" target="_blank">Lihat / Download Dokumen</a>
+                                @endif
+                            @else
+                                <span class="text-muted">Tidak ada dokumen.</span>
+                            @endif
                         </div>
                         <p><strong>Tanggal Masuk:</strong> {{ $item->created_at }}</p>
                     </div>

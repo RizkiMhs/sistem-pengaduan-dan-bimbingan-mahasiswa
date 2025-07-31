@@ -7,6 +7,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Prodi;
 
 class DosenpaController extends Controller
 {
@@ -16,8 +17,9 @@ class DosenpaController extends Controller
     public function index()
     {
         //
-        return view('dashboard.dosenpa.index', [
+        return view('dashboard.dosenPA.index', [
             'dosenpa' => Dosenpa::all(),    
+            'prodis' => Prodi::all(),
             'active' => 'dosen-pa'
         ]);
     }
@@ -45,6 +47,7 @@ class DosenpaController extends Controller
             'alamat' => 'required',
             'no_hp' => 'required',
             'jenis_kelamin' => 'required',
+            'prodi_id' => 'required|exists:prodis,id',
             'foto'=> 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -58,10 +61,13 @@ class DosenpaController extends Controller
         $valisasiData['password'] = bcrypt($valisasiData['password']);
         // $valisasiData['foto'] = $request->file('foto')->store('foto-dosenpa');
         if ($request->file('foto')) {
-            $valisasiData['foto'] = $request->file('foto')->store('foto-dosenpa');
-        } else {
-            $valisasiData['foto'] = 'foto-dosenpa/default.png';
-        }
+    // Menyimpan ke storage/app/public/foto_dosen
+    $valisasiData['foto'] = $request->file('foto')->store('foto_dosen', 'public');
+} else {
+    // Menyimpan path default
+    $valisasiData['foto'] = 'foto_dosen/default.png';
+}
+
 
         $valisasiData['user_id'] = $user['id'];
 
@@ -104,6 +110,7 @@ class DosenpaController extends Controller
             'alamat' => 'required',
             'no_hp' => 'required',
             'jenis_kelamin' => 'required',
+            'prodi_id' => 'required|exists:prodis,id',
             'foto'=> 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -116,13 +123,20 @@ class DosenpaController extends Controller
 
         $valisasiData['password'] = bcrypt($valisasiData['password']);
         if ($request->file('foto')) {
-            if ($dosenpa->foto != 'foto-dosenpa/default.png') {
-                unlink('storage/' . $dosenpa->foto);
-            }
-            $valisasiData['foto'] = $request->file('foto')->store('foto-dosenpa');
-        } else {
-            $valisasiData['foto'] = $dosenpa->foto;
-        }
+    // Hapus file lama jika bukan default
+    if ($dosenpa->foto !== 'foto_dosenpa/default.png' && file_exists(storage_path('app/public/' . $dosenpa->foto))) {
+        unlink(storage_path('app/public/' . $dosenpa->foto));
+    }
+
+    // Simpan file baru ke storage/app/public/foto_dosenpa
+    $valisasiData['foto'] = $request->file('foto')->store('foto_dosenpa', 'public');
+} else {
+    // Tetap gunakan foto lama
+    $valisasiData['foto'] = $dosenpa->foto;
+}
+
+
+        
 
         Dosenpa::where('id', $dosenpa->id)
             ->update($valisasiData);

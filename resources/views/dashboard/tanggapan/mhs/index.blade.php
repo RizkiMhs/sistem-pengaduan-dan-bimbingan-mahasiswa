@@ -59,7 +59,21 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{ asset('storage/' . $item->pengaduan->foto) }}" alt="{{ $item->pengaduan->isi_pengaduan }}" class="img-thumbnail">
+                            <div>
+                                <label for="dokumen" class="form-label">Dokumen</label>
+                                @if($item->pengaduan->dokumen)
+                                    @php
+                                        $ext = pathinfo($item->pengaduan->dokumen, PATHINFO_EXTENSION);
+                                    @endphp
+                                    @if(in_array(strtolower($ext), ['jpg','jpeg','png']))
+                                        <img src="{{ asset('storage/' . $item->pengaduan->dokumen) }}" alt="Dokumen" class="img-thumbnail" width="80">
+                                    @else
+                                        <a href="{{ asset('storage/' . $item->pengaduan->dokumen) }}" target="_blank">Lihat / Download Dokumen</a>
+                                    @endif
+                                @else
+                                    <span class="text-muted">Tidak ada dokumen.</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <ul class="list-group">

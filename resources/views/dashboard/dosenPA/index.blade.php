@@ -35,7 +35,9 @@
           <th scope="col">Name</th>
           <th scope="col">Nip</th>
           <th scope="col">Email</th>
-            <th scope="col">Foto</th>
+          <th scope="col">Prodi</th>
+          <th scope="col">Fakultas</th>
+          <th scope="col">Foto</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -46,6 +48,8 @@
             <td>{{ $pa->nama }}</td>
             <td>{{ $pa->nidn }}</td>
             <td>{{ $pa->email }}</td>
+            <td>{{ $pa->prodi->nama_prodi ?? '-' }}</td>
+            <td>{{ $pa->prodi->fakultas->nama_fakultas ?? '-' }}</td>
             <td><img src="{{ asset('storage/' . $pa->foto) }}" alt="foto" style="width: 50px" class="img-thumbnail"></td>
             <td>
   
@@ -123,6 +127,18 @@
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>
+                @enderror
+              </div>
+              <div class="mb-3">
+                <label for="prodi_id" class="form-label">Program Studi</label>
+                <select name="prodi_id" class="form-select @error('prodi_id') is-invalid @enderror" required>
+                  <option value="">Pilih Program Studi</option>
+                  @foreach($prodis as $prodi)
+                    <option value="{{ $prodi->id }}" {{ old('prodi_id') == $prodi->id ? 'selected' : '' }}>{{ $prodi->nama_prodi }} ({{ $prodi->jenjang }})</option>
+                  @endforeach
+                </select>
+                @error('prodi_id')
+                  <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
             </div>
@@ -236,6 +252,18 @@
                         {{ $message }}
                     </div>
                     @enderror
+                </div>
+                <div class="mb-3">
+                  <label for="prodi_id" class="form-label">Program Studi</label>
+                  <select name="prodi_id" class="form-select @error('prodi_id') is-invalid @enderror" required>
+                    <option value="">Pilih Program Studi</option>
+                    @foreach($prodis as $prodi)
+                      <option value="{{ $prodi->id }}" {{ $pa->prodi_id == $prodi->id ? 'selected' : '' }}>{{ $prodi->nama_prodi }} ({{ $prodi->jenjang }})</option>
+                    @endforeach
+                  </select>
+                  @error('prodi_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
               <div class="col-md-6">

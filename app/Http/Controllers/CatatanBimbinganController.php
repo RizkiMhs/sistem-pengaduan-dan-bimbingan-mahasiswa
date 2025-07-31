@@ -24,8 +24,8 @@ class CatatanBimbinganController extends Controller
         $user = Auth::user();
 
         // Autorisasi: Pastikan yang mengisi adalah Dosen atau Mahasiswa yang bersangkutan
-        $isOwner = $user->role == 'mahasiswa' && $pendaftaran->mahasiswa_id === $user->mahasiswa->id;
-        $isLecturer = $user->role == 'dosenpa' && $pendaftaran->jadwalBimbingan->dosenpa_id === $user->dosenpa->id;
+        $isOwner = $user->role == 'mahasiswa' && $pendaftaran->mahasiswa_id == $user->mahasiswa->id;
+        $isLecturer = $user->role == 'dosenpa' && $pendaftaran->jadwalBimbingan->dosenpa_id == $user->dosenpa->id;
 
         if (!$isOwner && !$isLecturer) {
             return back()->with('error', 'Anda tidak memiliki akses untuk mengisi catatan ini.');

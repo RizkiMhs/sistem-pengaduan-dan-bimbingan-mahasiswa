@@ -19,4 +19,5 @@ class Prodi extends Model
     {
         return $this->hasMany(Mahasiswa::class, 'prodi_id');
     }
+    
 }

@@ -33,6 +33,7 @@
                 <th scope="col">Nama</th>
                 <th scope="col">NIM</th>
                 <th scope="col">Program Studi</th>
+                <th scope="col">Fakultas</th>
                 <th scope="col">Dosen PA</th>
                 <th scope="col">Foto</th>
                 <th scope="col">Aksi</th>
@@ -46,6 +47,7 @@
                     <td>{{ $mhs->nim }}</td>
                     {{-- Menampilkan nama prodi dari relasi --}}
                     <td>{{ $mhs->prodi->nama_prodi ?? 'N/A' }}</td>
+                    <td>{{ $mhs->prodi->fakultas->nama_fakultas ?? 'N/A' }}</td>
                     {{-- Menampilkan nama dosen dari relasi --}}
                     <td>{{ $mhs->dosenpa->nama ?? 'N/A' }}</td>
                     <td>

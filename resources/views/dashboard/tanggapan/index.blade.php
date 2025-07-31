@@ -72,7 +72,21 @@
                 ">
                 <div class="row">
                     <div class="col-md-5">
-                        <img src="{{ asset('storage/' . $item->pengaduan->foto) }}" alt="{{ $item->pengaduan->isi_pengaduan }}" class="img-thumbnail" width="300">
+                        <div>
+                            <label for="dokumen" class="form-label">Dokumen</label>
+                            @if($item->pengaduan->dokumen)
+                                @php
+                                    $ext = pathinfo($item->pengaduan->dokumen, PATHINFO_EXTENSION);
+                                @endphp
+                                @if(in_array(strtolower($ext), ['jpg','jpeg','png']))
+                                    <img src="{{ asset('storage/' . $item->pengaduan->dokumen) }}" alt="Dokumen" class="img-thumbnail" width="80">
+                                @else
+                                    <a href="{{ asset('storage/' . $item->pengaduan->dokumen) }}" target="_blank">Lihat / Download Dokumen</a>
+                                @endif
+                            @else
+                                <span class="text-muted">Tidak ada dokumen.</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="col-md-7">
                         <ul class="list-group">

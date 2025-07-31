@@ -37,17 +37,19 @@ class PengaduanController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $valid = $request->validate([
+        $validated = $request->validate([
             'isi_pengaduan' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
+            'dokumen' => 'nullable|mimes:jpeg,png,jpg,pdf,doc,docx|max:20480', // 20MB
         ]);
-        $valid['mahasiswa_id'] = auth()->user()->mahasiswa->id;
-        $valid['status'] = 'proses';
 
-        $valid['foto'] = $request->file('foto')->store('foto-pengaduan');
+        if ($request->file('dokumen')) {
+            $validated['dokumen'] = $request->file('dokumen')->store('dokumen-pengaduan', 'public');
+        }
 
-        Pengaduan::create($valid);
+        $validated['mahasiswa_id'] = auth()->user()->mahasiswa->id;
+        $validated['status'] = 'proses';
+
+        Pengaduan::create($validated);
 
         return redirect('/dashboard/pengaduan')->with('success', 'Pengaduan berhasil dikirim');
 
